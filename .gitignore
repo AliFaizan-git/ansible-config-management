@@ -1,0 +1,127 @@
+# =============================
+# ANSIBLE CORE
+# =============================
+*.retry
+*.log
+ansible.log
+ansible-navigator.log
+.galaxy_install_info
+.already_installed
+
+# Ansible cache and tmp
+.ansible/
+.ansible_async/
+.ansible_inventory_cache/
+.ansible_facts_cache/
+
+# =============================
+# VAULT & SECRETS - MOST IMPORTANT
+# =============================
+.vault_pass
+.vault-password
+.vault_password
+.vault-pass.txt
+vault_pass.txt
+*password*
+.env
+.env.*
+secrets.yml
+*secret*.yml
+*.vault
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# Keep encrypted vault file, ignore password file
+# vault.yml itself SHOULD be committed if encrypted
+
+# =============================
+# GALAXY DEPENDENCIES
+# =============================
+# Installed collections and roles - don't commit them, commit requirements.yml instead
+collections/
+# If you track your own collections, whitelist requirements file:
+!collections/requirements.yml
+!collections/galaxy.yml
+
+# If you install roles via requirements.yml
+# If your custom roles are in roles/ - comment this out
+# roles/
+# For external roles only:
+roles/*/
+# Common pattern: keep custom roles
+# !roles/common/
+# !roles/webservers/
+
+# =============================
+# MOLECULE & TESTING
+# =============================
+.molecule/
+molecule/*/.cache/
+molecule/*/molecule.yml.bak
+.pytest_cache/
+.tox/
+.coverage
+coverage.xml
+htmlcov/
+
+# =============================
+# EXECUTION ENVIRONMENT / AAP / ansible-builder
+# =============================
+context/
+_build/
+execution-environment.tar
+ee-*.tar
+*.tar.gz
+.reusable_facts/
+
+# =============================
+# PYTHON
+# =============================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+.venv/
+env/
+ENV/
+.env-venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# =============================
+# OS FILES
+# =============================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# =============================
+# IDEs
+# =============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+
+# =============================
+# INVENTORY / TEMP
+# =============================
+# Ignore dynamic inventory cache
+*.cache
+*.tmp
+*.temp
+inventory/*.ini.bak
