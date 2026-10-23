@@ -1,0 +1,38 @@
+---
+- name: Bootstrap Dedicated Ansible User
+  hosts: docker_servers
+  become: true
+
+  vars:
+    ansible_user_name: "ansible_worker"
+
+  tasks:
+    - name: Create the ansible group
+      ansible.builtin.group:
+        name: "{{ ansible_user_name }}"
+        state: present
+
+    - name: Create the automated ansible user account
+      ansible.builtin.user:
+        name: "{{ ansible_user_name }}"
+        group: "{{ ansible_user_name }}"
+        shell: /bin/bash
+        home: "/home/{{ ansible_user_name }}"
+        # Automatically loaded from group_vars/all/vault_vars.yml
+        password: "{{ vault_ansible_user_password | default(omit) }}"
+        create_home: true
+        state: present
+
+    - name: Deploy the public SSH key for passwordless login
+      ansible.builtin.authorized_key:
+        user: "{{ ansible_user_name }}"
+        state: present
+        key: "{{ lookup('file', '/home/ali/.ssh/ali_ssh.pub') }}"
+
+    - name: Configure passwordless sudo privileges
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/90-ansible-users
+        line: "{{ ansible_user_name }} ALL=(ALL) NOPASSWD:ALL"
+        validate: '/usr/sbin/visudo -cf %s'
+        create: true
+        mode: '0440'
